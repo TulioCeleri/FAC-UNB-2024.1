@@ -2,6 +2,6 @@
 	hello: .asciz "Ola Mundo\n" 
 
 .text
-li a7, 4  #funçao 4 print string
+li a7, 4  	 #funcao 4 print string
 la a0, hello #carregar o hello no registrador a0
-ecall #chamada de sistema
+ecall 		 #chamada de sistema
