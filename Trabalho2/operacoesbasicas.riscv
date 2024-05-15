@@ -1,0 +1,165 @@
+.data
+pulalinha: .asciz "\n"
+Add: .asciz "ADD: "
+Sub: .asciz "SUB: "
+And: .asciz "AND: "
+Or: .asciz "OR: "
+Xor: .asciz "XOR: "
+Mask: .asciz "MASK: "
+Sll: .asciz "SLL("
+Srl: .asciz "SRL("
+fechar: .asciz "): "
+
+.text
+li a7, 5 #le um inteiro
+ecall
+
+mv t0, a0 #move o valor de a0 para t0
+
+li a7, 5 #le um inteiro
+ecall
+
+mv t1, a0 #move o valor de a0 para t0
+
+li a7, 5 #le um inteiro 
+ecall
+
+mv t3, a0
+
+#Adicao
+add t2, t0, t1 #salva o resultado da soma t0 e t1 em t2
+
+li a7, 4 #imprime uma string
+la a0, Add #passa a string Add para a0
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#Subtracao
+sub t2, t0, t1 #salva o resultado da subracao t0 e t1 em t2
+
+li a7, 4 #imprime uma string
+la a0, Sub #passa a string Sub para a0
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#And
+and t2, t0, t1
+
+li a7, 4 #imprime uma string
+la a0, And #passa a string And para a0
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#Or
+or t2, t0, t1
+
+li a7, 4 #imprime uma string
+la a0, Or #passa a string Or para a0
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#Xor
+xor t2, t0, t1
+
+li a7, 4 #imprime uma string
+la a0, Xor #passa a string Xor para a0
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#Mask
+li t4, 31 #salvo variavel 31 no registrador t4
+and t2, t3, t4
+mv t5, t2
+
+li a7, 4 #imprime uma string
+la a0, Mask #passa a string Mask para a0
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#Sll
+sll  t2, t0, t5
+
+li a7, 4 #imprime uma string
+la a0, Sll #passa a string Sll para a0
+ecall
+
+li a7, 1 #imprime o indice 
+mv a0, t5
+ecall
+
+li a7, 4 #imprime ): 
+la a0, fechar	
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
+
+#Srl
+srl  t2, t1, t5
+
+li a7, 4 #imprime uma string
+la a0, Srl #passa a string Sll para a0
+ecall
+
+li a7, 1 #imprime o indice 
+mv a0, t5
+ecall
+
+li a7, 4 #imprime ): 
+la a0, fechar	
+ecall
+
+li a7, 1 #imprime um inteiro
+mv a0, t2 #move o valor de t2 para a0
+ecall
+
+li a7, 4 #imprime uma string
+la a0, pulalinha #passa a string pulalinha para a0
+ecall
