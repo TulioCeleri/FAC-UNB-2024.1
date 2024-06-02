@@ -1,0 +1,65 @@
+.data
+	str: .space 100
+	str2: .space 100
+	fim: .asciz  "\n"
+
+.text
+	li a7, 5 #syscall 5: ler um inteiro do teclado
+	ecall
+	mv t0, a0 #move o conteudo de a0 para t1
+	
+	addi t0, t0, 1 #t0 = t0 + 1
+	la a0, str #a0 recebe o endereço de str 
+	mv a1, t0 #a1 representa o numero max de characteres para leitura a1 = t0
+	li a7, 8 #syscall 8: ler uma string
+	ecall
+	
+	la a0, fim #pula linha
+	li a7, 4
+	ecall
+	 
+	la a0, str2 #le o gabarito do teclado
+	mv a1, t0 #tamanho max da string
+	li a7, 8 #syscall 8: ler uma string
+	ecall
+	
+	la a0, fim #pula linha
+	li a7, 4
+	ecall
+	
+	li t1, 0 # iniciando contador t1 = 0
+	
+	la a0, str #a0 recebe o endereco de str
+	la a1, str2 #a1 recebe o endereco de str2
+	
+loop:
+	
+	lbu t2, 0(a0) #carrega o primeiro caractere do gabarito
+	lbu t3, 0(a1) #carrega o primeiro caractere da resposta
+	
+	beqz t2, fim_comparacao #se t2 for zero chegamos no final da string gabarito(str)
+	beqz t3, fim_comparacao #se t3 for zero chegamos no final da string resposta(str2)
+	bne t2, t3, proximo_caractere #se t2 for != de t3 vai para proximo_caractere
+	
+	addi t1, t1, 1 #t1++
+	
+proximo_caractere:
+	addi a0, a0, 1 #vai para o proximo caractere do gabarito
+	addi a1, a1, 1 #vai para o proximo caractere da resposta
+	
+	j loop
+	
+fim_comparacao:
+	mv a0, t1 #move para a0 o valor de t1
+	li a7, 1 #syscall 1: imprime inteiro
+	ecall
+	
+	la a0, fim #pula linha
+	li a7, 4
+	ecall
+	
+	
+	
+	
+
+

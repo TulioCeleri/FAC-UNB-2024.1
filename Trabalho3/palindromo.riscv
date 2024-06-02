@@ -1,0 +1,39 @@
+.data
+	str: .space 1001
+	fim: .asciz "\n"
+.text
+	li a7, 5 #syscall 5: ler um inteiro do teclado
+	ecall
+	mv t0, a0 #move o conteudo de a0 para t1 (t1=a0)
+	
+	addi t0, t0, 1 #t0 = t0 + 1
+	la a0, str #carrega em a0 o endereco de str
+	mv a1, t0 #move para a1 o tamanho max da string
+	li a7, 8 #syscall 8: ler uma string do teclado
+	ecall
+	
+	la a0, fim #"\n no final da string"
+	li a7, 4
+	ecall
+	
+	la a0, str
+	addi t0, t0, -2
+	srai t1, t0, 1
+	li t2, 1
+for:
+	blt t1, zero, fimloop
+	lb t3, 0(a0)
+	lb t4, (a0)(t0)
+	bne t3, t4, nao
+	addi a0, a0, 1
+	addi t0, t0, -1
+	addi t1, t1, -1
+	j for
+nao:
+	li t2, 0
+	
+fimloop:
+	mv a0, t2
+	li a7, 1
+	ecall
+	
