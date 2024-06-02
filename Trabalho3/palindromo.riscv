@@ -1,39 +1,48 @@
 .data
-	str: .space 1001
-	fim: .asciz "\n"
+    	str: .space 1001  # espaço para a string
+    	fim: .asciz "\n"  # string de final de linha
+
 .text
-	li a7, 5 #syscall 5: ler um inteiro do teclado
-	ecall
-	mv t0, a0 #move o conteudo de a0 para t1 (t1=a0)
-	
-	addi t0, t0, 1 #t0 = t0 + 1
-	la a0, str #carrega em a0 o endereco de str
-	mv a1, t0 #move para a1 o tamanho max da string
-	li a7, 8 #syscall 8: ler uma string do teclado
-	ecall
-	
-	la a0, fim #"\n no final da string"
+    	li a7, 5          # syscall 5: ler um inteiro do teclado
+    	ecall
+    	mv t0, a0         # move o conteúdo de a0 para t0 (tamanho da string)
+
+    	la a0, str        # carrega em a0 o endereço de str
+    	addi a1, t0, 1    # move para a1 o tamanho máximo da string (inclui '\0')
+    	li a7, 8          # syscall 8: ler uma string do teclado
+    	ecall
+    	
+    	la a0, fim 	  #pula linha
 	li a7, 4
 	ecall
-	
-	la a0, str
-	addi t0, t0, -2
-	srai t1, t0, 1
-	li t2, 1
-for:
-	blt t1, zero, fimloop
-	lb t3, 0(a0)
-	lb t4, (a0)(t0)
-	bne t3, t4, nao
-	addi a0, a0, 1
-	addi t0, t0, -1
-	addi t1, t1, -1
-	j for
+
+    	la a0, str        # carrega o endereço da string em a0
+    	add t1, a0, t0    # t1 aponta para o fim da string (após o último caractere)
+    	addi t1, t1, -1   # ajusta t1 para apontar para o último caractere da string
+    	srai t2, t0, 1    # divide t0 por 2, t2 será o número de comparações a serem feitas
+    	li t3, 1          # t3 será o nosso indicador de palíndromo (1 = é palíndromo, 0 = não é)
+
+loop:
+    	beqz t2, fimloop  # se t2 (contador de comparações) for 0, fim do loop
+    	lb t4, 0(a0)      # carrega o byte atual da string
+    	lb t5, 0(t1)      # carrega o byte correspondente do final da string
+
+    	bne t4, t5, nao   # se os bytes não forem iguais, não é palíndromo
+
+    	addi a0, a0, 1    # move o ponteiro inicial para a direita
+    	addi t1, t1, -1   # move o ponteiro final para a esquerda
+    	addi t2, t2, -1   # decrementa o contador de comparações
+    	j loop
+
 nao:
-	li t2, 0
-	
+    	li t3, 0          # não é palíndromo
+    	j fimloop
+
 fimloop:
-	mv a0, t2
-	li a7, 1
+    	mv a0, t3         # move o resultado para a0
+    	li a7, 1          # syscall 1: imprimir inteiro
+    	ecall
+    	
+    	la a0, fim	  #pulalinha
+	li a7, 4
 	ecall
-	
