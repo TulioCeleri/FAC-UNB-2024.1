@@ -31,3 +31,11 @@
 ## Trabalho 2
 * A - [Operações Básicas](https://moj.naquadah.com.br/contests/ta_fac_t2_2024_1/operacoesbasicas2.html)
 * B - [Maior número](https://moj.naquadah.com.br/contests/ta_fac_t2_2024_1/maior_numero_2.pdf)
+
+## Trabalho 3
+* A - [Vestibular](https://moj.naquadah.com.br/contests/jl_fac_t01_f2_2022_2/vestibular.pdf)
+* B - [Palindromo](https://moj.naquadah.com.br/contests/rysh5alistaeda120241/palindromo.pdf)
+
+## Trabalho 4
+* A - [Testa Primo](https://moj.naquadah.com.br/contests/ta_fac_t4_2024_1/testa-primo-mips.pdf)
+* B - [MDC e MMC](https://moj.naquadah.com.br/contests/ta_fac_t4_2024_1/mdc-mmc-mips.pdf)
