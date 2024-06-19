@@ -1,0 +1,49 @@
+.data
+	invalido: .asciz "Entrada invalida.\n"
+	primo: .asciz "sim\n"
+	naoprimo: .asciz "nao\n"
+	
+.text
+	li a7, 5	#le um inteiro do teclado
+	ecall
+	mv t0, a0	#move para t0 o conteudo de a0
+	
+	blez t0, saida1	#se t0 <= 0 vai para a saida1
+	
+	li t1, 1	#t1 = 1
+	beq t0, t1, saida2 #se t0 == t1 vai para a saida2
+	
+	li t2, 1	#t2 sera o indicador de primos(se t2 = 1 entao eh primo, t2 = 0 nao eh primo)
+	li t3, 2	#t3 sera o nosso contador e comecara em 2(t3 = 2)
+loop:
+	mul t4, t3, t3 	#t4 = t3 * t3
+	bgt t4, t0, fimloop #se t4 > t0 salta para fimloop
+	rem t5, t0, t3 	# t5 = t0 % t3
+	beqz t5, saida2	#se t5 = 0 salta para saida2
+	addi t3, t3, 1	#incrementa t3 (t3++)
+	j loop
+
+fimloop:
+	j saida3 	#se o loop terminou entao o numero eh primo
+
+saida1:
+	la a0, invalido	#imprime a string "Entrada invalida."
+	li a7, 4
+	ecall
+	j exit
+
+saida2:
+	la a0, naoprimo	#imprime a string "nao"
+	li a7, 4
+	ecall
+	j exit
+
+saida3:
+	la a0, primo	#imprime a string "sim"
+	li a7, 4
+	ecall
+	j exit
+
+exit:
+	li a7, 10	#finaliza o programa
+	ecall

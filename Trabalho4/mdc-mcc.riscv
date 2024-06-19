@@ -1,0 +1,59 @@
+.data
+	invalido: .asciz "Entrada invalida.\n"
+	pulalinha: .asciz "\n"
+	
+.text
+	li a7, 5 	# le um inteiro do teclado
+	ecall
+	mv t0, a0	# move o valor de a0 para t0
+	
+	li a7, 5 	# le um inteiro do teclado
+	ecall 
+	mv t1, a0 	# move o valor de a0 para t1
+	
+	li t2, 2	# t2 serve para verificar se os numeros sao maiores que 1
+	blt t0, t2, saida1 # se t0 < 2 pula para saida1
+	blt t1, t2, saida1 # se t1 < 2 pula para saida1
+	
+	mv t3, t0	# t3 = t0
+	mv t4, t1	# t4 = t1
+
+calcula_mdc:
+	beqz t4, mdc_calculado # se t4 == 0 pula para mdc_calculado
+	rem t5, t3, t4	# t5 = t3 % t4
+	mv t3, t4	# t3 = t4
+	mv t4, t5	# t4 = t5
+	j calcula_mdc
+
+mdc_calculado:
+	mv t6, t3	# t6 = mdc
+	
+	# Calcular o MMC usando a relação MMC(a, b) = (a * b) / MDC(a, b)
+	mul a1, t0, t1	# a1 = t0 * t1
+	div a2, a1, t6	# a2 = a1 / t6
+	
+	# Imprimir MDC
+	mv a0, t6
+	li a7, 1
+	ecall
+	
+	la a0, pulalinha
+	li a7, 4
+	ecall
+	
+	# Imprimir MMC
+	mv a0, a2
+	li a7, 1
+	ecall
+	
+	la a0, pulalinha
+	li a7, 4
+	ecall
+	
+	li a7,10 	#finaliza o programa
+	ecall
+	
+saida1:
+	la a0, invalido	#imprime a string "Entrada invalida."
+	li a7, 4
+	ecall
